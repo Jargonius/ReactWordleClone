@@ -1,11 +1,11 @@
 import Row from './Row'
 
-function Board(props: any) {
+function GameBoard(props: any) {
   const styles = {
     board: {
-      padding: "0 20px",
+      padding: '0 20px',
       display: "flex",
-      flexDirection: "column"
+      flexDirection: 'column'
     }
   }
 
@@ -20,4 +20,4 @@ function Board(props: any) {
   )
 }
 
-export default Board
+export default GameBoard

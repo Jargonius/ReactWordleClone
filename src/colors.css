@@ -1,0 +1,9 @@
+:root{
+  --empty-tile-color: #aaaaaa;
+  --correct-tile-color-1: #48ac00;
+  --correct-tile-color-2: #3c9100;
+  --contained-tile-color-1: #ffd143;
+  --contained-tile-color-2: #ffb953;
+  --gradient-options: circle farthest-corner at 10% 20%;
+  /* --correct-tile-border-color: rgba(255, 255, 255, 0.075); */
+}
