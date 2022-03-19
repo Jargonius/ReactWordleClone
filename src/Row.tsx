@@ -12,7 +12,7 @@ function Board(props: any) {
     <div style={styles.board}>
       {
         Array.from(Array(props.length), () => {
-          return <Tile key={Math.random()} state={'contained'} letter={''}></Tile>
+          return <Tile key={Math.random()} state={'correct'} letter={'X'}></Tile>
         })
       }
     </div>

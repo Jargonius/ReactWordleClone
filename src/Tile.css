@@ -1,20 +1,81 @@
+:root{
+  --empty-tile-color: #aaaaaa;
+  --correct-tile-color-1: #48ac00;
+  --correct-tile-color-2: #3c9100;
+  --contained-tile-color-1: #ffd143;
+  --contained-tile-color-2: #ffb953;
+  --gradient-options: circle farthest-corner at 10% 20%;
+  /* --correct-tile-border-color: rgba(255, 255, 255, 0.075); */
+}
+
 .tile {
   font-size: 18px;
   color: white;
-  border: 1px solid;
-  border-radius: 8px;
+  /* border: 1px solid; */
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 48px;
   height: 48px;
-  margin: 4px;
+  margin: 2px;
 }
+
 
 .empty {
-  border-color: lightgray;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 172, 0, 0.075);
+  border: 1px solid rgba(72, 172, 0, 0.25);
 }
 
+/* .correct {
+  background-image: radial-gradient(var(--gradient-options), var(--correct-tile-color-1) 0%, var(--correct-tile-color-2) 90%);
+  /* color: rgba(72, 172, 0, 0.75); */
+  /* background: rgba(72, 172, 0, 0.075); */
+  /* border: 1px solid rgba(72, 172, 0, 0.25); */
+} */
+
 .contained {
-  border-color: #ffcc00;
+  background-image: radial-gradient(var(--gradient-options), var(--contained-tile-color-1) 0%, var(--contained-tile-color-2) 90%);
+  /* color: rgba(255, 172, 0, 0.75); */
+  /* background: rgba(255, 172, 0, 0.075); */
+  /* border: 1px solid rgba(255, 172, 0, 0.25); */
+}
+
+.incorrect {
+  color: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.correct {
+  position: relative;
+  /* width: 450px; */
+  /* padding: 40px 0; */
+  /* font-size: 5em; */
+  color: #fff;
+  text-align: center;
+  letter-spacing: 5px;
+  background: #020117;
+}
+.correct::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(45deg, #ffd800, #ff5520, #750cf2, #0cbcf2);
+  z-index: -1;
+}
+.correct::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, #ffd800, #ff5520, #750cf2, #0cbcf2);
+  z-index: -2;
+  filter: blur(40px);
 }
