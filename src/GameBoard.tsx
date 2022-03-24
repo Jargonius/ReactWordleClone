@@ -1,19 +1,18 @@
 import Row from './Row'
 
 function GameBoard(props: any) {
-  const styles = {
-    board: {
-      padding: '0 20px',
-      display: "flex",
-      flexDirection: 'column'
-    }
+
+  function padWord(maxWordLength: number) {
+    let padding = maxWordLength - props.word.length;
+    let paddedWord = props.word + ' '.repeat(padding);
+    return paddedWord
   }
 
   return (
-    <div style={styles.board}>
+    <div className={'game-board'}>
       {
         Array.from(Array(props.guesses), () => {
-          return <Row key={Math.random()} length={props.wordLength}></Row>
+          return <Row key={Math.random()} length={props.wordLength} word={padWord(props.wordLength)}></Row>
         })
       }
     </div>

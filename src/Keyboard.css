@@ -1,39 +1,62 @@
 .keyboard {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
-  /* grid-template-rows: auto; */
-  grid-template-areas: 
-    "Q W E R T Y U I O P"
-    "A S D F G H J K L 🠴"
-    "Z X C V B N M ↩ ↩ ↩";
+  margin-top: 16px;
 }
 
-[label~=Q] { grid-area: Q; }
-[label~=W] { grid-area: W; }
-[label~=E] { grid-area: E; }
-[label~=R] { grid-area: R; }
-[label~=T] { grid-area: T; }
-[label~=Y] { grid-area: Y; }
-[label~=U] { grid-area: U; }
-[label~=I] { grid-area: I; }
-[label~=O] { grid-area: O; }
-[label~=P] { grid-area: P; }
-[label~=A] { grid-area: A; }
-[label~=S] { grid-area: S; }
-[label~=D] { grid-area: D; }
-[label~=F] { grid-area: F; }
-[label~=G] { grid-area: G; }
-[label~=H] { grid-area: H; }
-[label~=J] { grid-area: J; }
-[label~=K] { grid-area: K; }
-[label~=L] { grid-area: L; }
-[label~=J] { grid-area: J; }
-[label~=Z] { grid-area: Z; }
-[label~=X] { grid-area: X; }
-[label~=C] { grid-area: C; }
-[label~=V] { grid-area: V; }
-[label~=B] { grid-area: B; }
-[label~=N] { grid-area: N; }
-[label~=M] { grid-area: M; }
-[label~=↩] { grid-area: ↩; }
-[label~=🠴] { grid-area: 🠴; }
+.enter-right.back-right {
+  grid-template-areas: 
+    "Q W E R T Y U I O P"
+    "A S D F G H J K L Bk"
+    ". Z X C V B N M En En";
+}
+
+.enter-left.back-left {
+  grid-template-areas: 
+    "Q W E R T Y U I O P"
+    "Bk A S D F G H J K L"
+    "En En Z X C V B N M .";
+}
+
+.enter-left.back-right {
+  grid-template-areas: 
+    "Q W E R T Y U I O P"
+    "A S D F G H J K L Bk"
+    "En En Z X C V B N M .";
+}
+
+.enter-right.back-left {
+  grid-template-areas: 
+    "Q W E R T Y U I O P"
+    "Bk A S D F G H J K L"
+    ". Z X C V B N M En En";
+}
+
+.Q { grid-area: Q; }
+.W { grid-area: W; }
+.E { grid-area: E; }
+.R { grid-area: R; }
+.T { grid-area: T; }
+.Y { grid-area: Y; }
+.U { grid-area: U; }
+.I { grid-area: I; }
+.O { grid-area: O; }
+.P { grid-area: P; }
+.A { grid-area: A; }
+.S { grid-area: S; }
+.D { grid-area: D; }
+.F { grid-area: F; }
+.G { grid-area: G; }
+.H { grid-area: H; }
+.J { grid-area: J; }
+.K { grid-area: K; }
+.L { grid-area: L; }
+.J { grid-area: J; }
+.Z { grid-area: Z; }
+.X { grid-area: X; }
+.C { grid-area: C; }
+.V { grid-area: V; }
+.B { grid-area: B; }
+.N { grid-area: N; }
+.M { grid-area: M; }
+.En { grid-area: En; }
+.Bk { grid-area: Bk; }

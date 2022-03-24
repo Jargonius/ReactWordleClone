@@ -11,8 +11,8 @@ function Board(props: any) {
   return (
     <div style={styles.board}>
       {
-        Array.from(Array(props.length), () => {
-          return <Tile key={Math.random()} state={'correct'} letter={'X'}></Tile>
+        props.word.split('').map(function(letter: string, index: number){
+          return <Tile key={letter + index} state={'empty'} letter={letter}></Tile>
         })
       }
     </div>
