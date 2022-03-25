@@ -6,7 +6,6 @@ function Keyboard(props: any) {
   
   function typeLetter(letter: string) {
     props.type(letter);
-    console.log(props)
   }
 
   return (
@@ -39,6 +38,7 @@ function Keyboard(props: any) {
       <Key state={'empty'} label={'M'} type={typeLetter}></Key>
       <Key state={'empty'} label={'Bk'} type={typeLetter}></Key>
       <Key state={'empty'} label={'En'} type={typeLetter}></Key>
+      <Key state={'empty'} label={'Sp'} type={typeLetter}></Key>
     </div>
   )
 }

@@ -2,7 +2,7 @@
   "keyboard": {
     "layout": "qwerty",
     "enterPosition": "right",
-    "backspacePosition": "left"
+    "backspacePosition": "right"
   },
   "word": ""
 }

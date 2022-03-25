@@ -7,32 +7,47 @@ import Keyboard from './Keyboard'
 
 function App() {
 
-  const [word, setWord] = useState('');
-  const wordLength = 5;
-  const guesses = 6;
+  const [guesses, setGuesses] = useState(6);
+  const [wordLength, setWordLength] = useState(5);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [words, setWords] = useState(Array(guesses).fill(''));
 
-  function updateGameState(letter: string) {
-    const newWord = word + letter;
-    if (newWord.length <= wordLength) {
-      setWord(word + letter);
+  function updateWord(letter: string) {
+    if (letter === 'Enter') {
+        submitWord(words[wordIndex]);
+    } else if (letter === 'Backspace') {
+        words[wordIndex] = words[wordIndex].slice(0, -1);
+        setWords([...words]);
+    } else {
+      const newWord = words[wordIndex] + letter;
+      if (newWord.length <= wordLength) {
+        words[wordIndex] = newWord;
+        setWords([...words]);
+      }
     }
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-    console.log(event.key);
     if (/^\w$/.test(event.key)) {
-      updateGameState(event.key.toUpperCase());
+      updateWord(event.key.toUpperCase());
     } else if (event.key === 'Enter') {
-      // Handle submit here.
+      submitWord(words[wordIndex]);
     } else if (event.key === 'Backspace') {
-      setWord(word.slice(0, -1));
+      words[wordIndex]= words[wordIndex].slice(0, -1);
+      setWords([...words]);
+    }
+  }
+
+  function submitWord(word: string) {
+    if (word.length == wordLength && wordIndex < guesses - 1) {
+      setWordIndex(wordIndex+1);
     }
   }
 
   return (
     <div className="app" tabIndex={0} onKeyDown={handleKeyDown}>
-      <GameBoard wordLength={wordLength} guesses={guesses} word={word}></GameBoard>
-      <Keyboard word={word} type={updateGameState}></Keyboard>
+      <GameBoard guesses={guesses} words={words} wordLength={wordLength}></GameBoard>
+      <Keyboard type={updateWord}></Keyboard>
     </div>
   )
 }

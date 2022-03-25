@@ -7,28 +7,28 @@
   grid-template-areas: 
     "Q W E R T Y U I O P"
     "A S D F G H J K L Bk"
-    ". Z X C V B N M En En";
+    "Sp Z X C V B N M En En";
 }
 
 .enter-left.back-left {
   grid-template-areas: 
     "Q W E R T Y U I O P"
     "Bk A S D F G H J K L"
-    "En En Z X C V B N M .";
+    "En En Z X C V B N M Sp";
 }
 
 .enter-left.back-right {
   grid-template-areas: 
     "Q W E R T Y U I O P"
     "A S D F G H J K L Bk"
-    "En En Z X C V B N M .";
+    "En En Z X C V B N M Sp";
 }
 
 .enter-right.back-left {
   grid-template-areas: 
     "Q W E R T Y U I O P"
     "Bk A S D F G H J K L"
-    ". Z X C V B N M En En";
+    "Sp Z X C V B N M En En";
 }
 
 .Q { grid-area: Q; }
@@ -60,3 +60,4 @@
 .M { grid-area: M; }
 .En { grid-area: En; }
 .Bk { grid-area: Bk; }
+.Sp { grid-area: Sp; }
