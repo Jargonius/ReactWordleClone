@@ -1,4 +1,5 @@
 import Row from './Row'
+import WordGuess from './WordGuess.class';
 
 function GameBoard(props: any) {
 
@@ -11,8 +12,8 @@ function GameBoard(props: any) {
   return (
     <div className={'game-board'}>
       {
-        props.words.map(function(word: string, index: number) {
-          return <Row key={word + index} length={props.wordLength} word={padWord(word)} state={props.state} selected={props.wordIndex == index}></Row>
+        props.wordGuesses.getGuesses().map(function(word: WordGuess, index: number) {
+          return <Row key={word.getWord() + index} length={props.wordLength} word={padWord(word.getWord())} invalid={word.isInvalid()} selected={props.wordIndex == index}></Row>
         })
       }
     </div>
