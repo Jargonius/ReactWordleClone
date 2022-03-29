@@ -12,7 +12,7 @@ function Board(props: any) {
     <div style={styles.board}>
       {
         props.word.split('').map(function(letter: string, index: number){
-          return <Tile key={letter + index} state={'empty'} letter={letter}></Tile>
+          return <Tile key={letter + index} state={props.state} letter={letter} selected={props.selected}></Tile>
         })
       }
     </div>
