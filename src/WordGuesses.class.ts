@@ -40,6 +40,10 @@ class WordGuesses {
     this.guesses[index].setWord(word);
   }
 
+  getGuess(index: number) {
+    return this.guesses[index];
+  }
+
   getGuesses(): WordGuess[] {
     return this.guesses;
   }

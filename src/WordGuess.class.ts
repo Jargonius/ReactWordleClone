@@ -25,6 +25,14 @@ class WordGuess {
     this.word = word;
   }
 
+  getLetterState(index: number): string {
+    return this.letterStates[index];
+  }
+
+  setLetterState(index: number, state: string) {
+    this.letterStates[index] = state;
+  }
+
 }
 
 export default WordGuess;

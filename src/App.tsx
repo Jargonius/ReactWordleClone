@@ -16,17 +16,30 @@ function App() {
   const [state, setState] = useState('empty');
 
   function getInitialWords(): WordGuesses {
-    // return Array(guesses).fill({ word: '', letterStates: Array(wordLength).fill('') });
     return new WordGuesses(guessNum, wordLength);
   }
 
   function getCorrectWord() {
-    const index = Math.random() * dictionary.words.length;
-    return dictionary.words[index];
+    const index = Math.round(Math.random() * dictionary.words.length);
+    return dictionary.words[index].toUpperCase();
+  }
+
+  function assessWord(word: string) {
+    for (let i = 0; i < word.length; i++) {
+      const letter = word[i];
+      if (correctWord[i] === letter) {
+        wordGuesses.getGuess(wordIndex).setLetterState(i, 'correct');
+      } else if (correctWord.includes(letter)) {
+        wordGuesses.getGuess(wordIndex).setLetterState(i, 'contained');
+      } else {
+        wordGuesses.getGuess(wordIndex).setLetterState(i, 'incorrect');
+      }
+    }
+    setWordGuesses(wordGuesses.clone());
   }
 
   function updateWord(letter: string) {
-    let newWord = wordGuesses.getWord(wordIndex) + letter;
+    let newWord = '';
     if (letter === 'Enter') {
       submitWord(wordGuesses.getWord(wordIndex));
     } else if (letter === 'Backspace') {
@@ -34,12 +47,15 @@ function App() {
       wordGuesses.setWord(wordIndex, newWord);
       setWordGuesses(wordGuesses.clone());
     } else if (/^\w$/.test(letter)) {
+      newWord = wordGuesses.getWord(wordIndex) + letter;
       if (newWord.length <= wordLength) {
         wordGuesses.setWord(wordIndex, newWord.toUpperCase());
         setWordGuesses(wordGuesses.clone());
       }
     }
-    isValidWord(newWord);
+    if (letter !== 'Enter') {
+      isValidWord(newWord);
+    }
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
@@ -50,13 +66,11 @@ function App() {
     const isValid = word.length == wordLength &&
                     wordIndex < guessNum - 1 &&
                     dictionary.words.includes(word.toLowerCase())
-    if (word.length >= wordLength) {
-      // setState(isValid ? 'empty' : 'invalid')
-      wordGuesses.setInvalidWord(wordIndex, !isValid);
+    if (word.length < wordLength) {
+      wordGuesses.setInvalidWord(wordIndex, false);
       setWordGuesses(wordGuesses.clone());
     } else {
-      // setState('empty');
-      wordGuesses.setInvalidWord(wordIndex, false);
+      wordGuesses.setInvalidWord(wordIndex, !isValid);
       setWordGuesses(wordGuesses.clone());
     }
     return isValid;
@@ -64,14 +78,14 @@ function App() {
 
   function submitWord(word: string) {
     if (isValidWord(word)) {
-      // setState('empty')
+      assessWord(word);
       setWordIndex(wordIndex+1);
     }
   }
 
   return (
     <div className="app" tabIndex={0} onKeyDown={handleKeyDown}>
-      <GameBoard wordGuesses={wordGuesses} wordLength={wordLength} wordIndex={wordIndex}></GameBoard>
+      <GameBoard correctWord={correctWord} wordGuesses={wordGuesses} wordLength={wordLength} wordIndex={wordIndex}></GameBoard>
       <Keyboard type={updateWord}></Keyboard>
     </div>
   )
