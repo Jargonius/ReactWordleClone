@@ -6,8 +6,8 @@ function GameBoard(props: any) {
   return (
     <div className={'game-board'}>
       {
-        props.wordGuesses.getGuesses().map(function(guess: WordGuess, index: number) {
-          return <Row key={guess.getWord() + index} length={props.wordLength} guess={guess} invalid={guess.isInvalid()} selected={props.wordIndex == index}></Row>
+        props.wordGuesses.guesses.map(function(guess: WordGuess, index: number) {
+          return <Row key={guess.word + index} length={props.wordLength} guess={guess} invalid={guess.invalid} selected={props.wordIndex == index}></Row>
         })
       }
     </div>

@@ -4,16 +4,19 @@ import './colors.css';
 import Dictionary from './Dictionary.class';
 import GameBoard from './GameBoard';
 import Keyboard from './Keyboard';
+import Obscurity from './Obscurity.enum';
 import WordGuesses from './WordGuesses.class';
 
 function App() {
+  // Setup state
   const [guessNum, setGuessNum] = useState(4);
   const [wordLength, setWordLength] = useState(3);
+  const [obscurity, setObscurity] = useState(Obscurity.Common);
   const [wordIndex, setWordIndex] = useState(0);
+  const [dictionary, setDictionary] = useState(new Dictionary(wordLength, obscurity));
   const [wordGuesses, setWordGuesses] = useState(getInitialWords());
   const [correctWord, setCorrectWord] = useState(getCorrectWord());
-  const [containedLetters, setContainedLetters] = useState(setupContainedLetters());
-  const [dictionary, setDictionary] = useState(new Dictionary(wordLength));
+  const [letterUsage, setLetterUsage] = useState(setupContainedLetters());
 
   function setupContainedLetters() {
     return new Map('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((l) => [l, 0]));
@@ -24,14 +27,13 @@ function App() {
   }
 
   function getCorrectWord() {
-    const index = Math.round(Math.random() * dictionary.words.length);
-    return dictionary.words[index].word.toUpperCase();
+    return dictionary.getRandomWord()
     // return 'APPLE';
   }
 
   function checkContainedLetter(letter: string): boolean {
     const letterCount = (correctWord.match(new RegExp(letter, 'gi')) || []).length;
-    return letterCount > 0 && containedLetters.get(letter) < letterCount;
+    return letterCount > 0 && letterUsage.get(letter) < letterCount;
   }
 
   function assessWord(word: string) {
@@ -39,15 +41,15 @@ function App() {
       const letter = word[i];
       if (correctWord[i] === letter) {
         wordGuesses.getGuess(wordIndex).setLetterState(i, 'correct');
-        containedLetters.set(letter, containedLetters.get(letter) + 1);
+        letterUsage.set(letter, letterUsage.get(letter) + 1);
       } else if (checkContainedLetter(letter)) {
         wordGuesses.getGuess(wordIndex).setLetterState(i, 'contained');
-        containedLetters.set(letter, containedLetters.get(letter) + 1);
+        letterUsage.set(letter, letterUsage.get(letter) + 1);
       } else {
         wordGuesses.getGuess(wordIndex).setLetterState(i, 'incorrect');
       }
     }
-    setContainedLetters(containedLetters);
+    setLetterUsage(letterUsage);
     setWordGuesses(wordGuesses.clone());
   }
 
@@ -80,7 +82,7 @@ function App() {
   function isValidWord(word: string) {
     const isValid = word.length == wordLength &&
                     wordIndex < guessNum &&
-                    dictionary.words.includes(word.toLowerCase());
+                    dictionary.lookup(word);
     if (word.length < wordLength) {
       wordGuesses.setInvalidWord(wordIndex, false);
       setWordGuesses(wordGuesses.clone());

@@ -18,7 +18,7 @@ function Board(props: any) {
   return (
     <div style={styles.board}>
       {
-        padWord(props.guess.getWord()).split('').map(function(letter: string, index: number){
+        padWord(props.guess.word).split('').map(function(letter: string, index: number){
           return <Tile invalid={props.invalid} key={letter + index} state={props.guess.getLetterState(index)} letter={letter} selected={props.selected}></Tile>
         })
       }

@@ -1,10 +1,12 @@
+import Obscurity from "./Obscurity.enum";
+
 class WordEntry {
 
   private _word: string = '';
   private _obscurity: number = 0;
   private _length: number = 0;
 
-  constructor(word: string, obscurity: number, length: number) {
+  constructor(word: string, obscurity: Obscurity, length: number) {
     this.word = word;
     this.obscurity = obscurity;
     this.length = length;

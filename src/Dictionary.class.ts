@@ -4,28 +4,49 @@ import dictionary5 from '../words/5-letter-words.json';
 import dictionary6 from '../words/6-letter-words.json';
 import dictionary7 from '../words/7-letter-words.json';
 import dictionary8 from '../words/8-letter-words.json';
-import WordEntry from './Word.class';
+import Obscurity from './Obscurity.enum';
+import WordEntry from './WordEntry.class';
 
 class Dictionary {
-  private dictionaries: WordEntry[][] = Array(9).fill([]);
-  private _words: WordEntry[] = [];
+  private dictionary: Map<string, WordEntry[]> = new Map<string, WordEntry[]>();
+  private wordLength: number = 0;
+  private obscurity: Obscurity = Obscurity.Common;
+  private dictionaries = [
+    dictionary3,
+    dictionary4,
+    dictionary5,
+    dictionary6,
+    dictionary7,
+    dictionary8
+  ];
 
-  constructor(wordLength: number) {
-    this.dictionaries[3] = dictionary3.map(w => new WordEntry(w.word, 0, 3));
-    this.dictionaries[4] = dictionary4.map(w => new WordEntry(w.word, 0, 4));
-    this.dictionaries[5] = dictionary5.map(w => new WordEntry(w.word, 0, 5));
-    this.dictionaries[6] = dictionary6.map(w => new WordEntry(w.word, 0, 6));
-    this.dictionaries[7] = dictionary7.map(w => new WordEntry(w.word, 0, 7));
-    this.dictionaries[8] = dictionary8.map(w => new WordEntry(w.word, 0, 8));
-    this.setWords(wordLength);
+  constructor(wordLength: number, obscurity: Obscurity) {
+    this.wordLength = wordLength;
+    this.obscurity = obscurity;
+
+    this.dictionaries.forEach((dict, index) => {
+      dict.forEach(elem => {
+        const key = `${index + 3}${elem.obscurity}`;
+        const entries: WordEntry[] = this.dictionary.get(key) || [];
+        const newEntry = new WordEntry(elem.word.toUpperCase(), elem.obscurity, 3);
+        this.dictionary.set(key, [...entries, newEntry]);
+      });
+    });
   }
 
+  get length(): number { return this.dictionary.size; }
 
-  private setWords(wordLength: number) {
-    this._words = this.dictionaries[wordLength]
+  getRandomWord() {
+    const index = Math.round(Math.random() * this.length);
+    const words = Array.from(this.dictionary.values()).flat().map(val => val.word);
+    return words[index].toUpperCase();
   }
 
-  get words(): WordEntry[] { return this._words}
+  lookup(word: string) {
+    word = word.toUpperCase();
+    const entries = this.dictionary.get(`${this.wordLength}${this.obscurity}`);
+    return entries?.find(entry => entry.word === word)?.word == word;
+  }
 }
 
 export default Dictionary;
