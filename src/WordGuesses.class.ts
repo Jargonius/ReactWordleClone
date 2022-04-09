@@ -2,17 +2,9 @@ import WordGuess from "./WordGuess.class";
 
 class WordGuesses {
 
-  private guesses: WordGuess[];
+  private _guesses: WordGuess[] = [];
   private guessNum: number;
   private wordLength: number;
-
-  // get guesses(): WordGuess[] {
-  //   return this.guesses;
-  // }
-
-  // set guesses(value: WordGuess[]) {
-  //   this.guesses = value;
-  // }
 
   constructor(guessNum: number, wordLength: number) {
     this.guessNum = guessNum;
@@ -24,32 +16,22 @@ class WordGuesses {
 
   clone(): WordGuesses {
     let clone = new WordGuesses(this.guessNum, this.wordLength);
-    clone.setGuesses(this.guesses);
+    clone.guesses = this.guesses;
     return clone;
   }
 
   setInvalidWord(index: number, invalid: boolean) {
-    this.guesses[index].setInvalid(invalid);
+    this.guesses[index].invalid = invalid;
   }
 
-  getWord(index: number): string {
-    return this.guesses[index].getWord();
-  }
+  getWord(index: number): string { return this.guesses[index].word; }
+  setWord(index: number, word: string) { this.guesses[index].word = word; }
 
-  setWord(index: number, word: string) {
-    this.guesses[index].setWord(word);
-  }
+  get guesses(): WordGuess[] { return this._guesses; }
+  set guesses(value: WordGuess[]) { this._guesses = value; }
 
   getGuess(index: number) {
     return this.guesses[index];
-  }
-
-  getGuesses(): WordGuess[] {
-    return this.guesses;
-  }
-
-  setGuesses(guesses: WordGuess[]) {
-    this.guesses = guesses;
   }
 
 }
