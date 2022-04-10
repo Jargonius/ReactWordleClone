@@ -4,6 +4,7 @@ import './colors.css';
 import Dictionary from './Dictionary.class';
 import GameBoard from './GameBoard';
 import Keyboard from './Keyboard';
+import LetterUsageTracker from './LetterUsageTracker.class';
 import Obscurity from './Obscurity.enum';
 import WordGuesses from './WordGuesses.class';
 
@@ -15,36 +16,36 @@ function App() {
   const [wordIndex, setWordIndex] = useState(0);
   const [dictionary, setDictionary] = useState(new Dictionary(wordLength, obscurity));
   const [wordGuesses, setWordGuesses] = useState(getInitialWords());
-  const [correctWord, setCorrectWord] = useState(getCorrectWord());
-  const [letterUsage, setLetterUsage] = useState(setupContainedLetters());
+  const [correctWord, setCorrectWord] = useState(dictionary.getRandomWord());
+  const [letterUsage, setLetterUsage] = useState(new LetterUsageTracker());
 
-  function setupContainedLetters() {
-    return new Map('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((l) => [l, 0]));
-  }
+  // function setupContainedLetters() {
+  //   return new Map('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((l) => [l, 0]));
+  // }
 
   function getInitialWords(): WordGuesses {
     return new WordGuesses(guessNum, wordLength);
   }
 
   function getCorrectWord() {
-    return dictionary.getRandomWord()
+    return 
     // return 'APPLE';
   }
 
-  function checkContainedLetter(letter: string): boolean {
-    const letterCount = (correctWord.match(new RegExp(letter, 'gi')) || []).length;
-    return letterCount > 0 && letterUsage.get(letter) < letterCount;
-  }
+  // function checkContainedLetter(letter: string): boolean {
+  //   const letterCount = (correctWord.match(new RegExp(letter, 'gi')) || []).length;
+  //   return letterCount > 0 && letterUsage.get(letter) < letterCount;
+  // }
 
   function assessWord(word: string) {
     for (let i = 0; i < word.length; i++) {
       const letter = word[i];
       if (correctWord[i] === letter) {
         wordGuesses.getGuess(wordIndex).setLetterState(i, 'correct');
-        letterUsage.set(letter, letterUsage.get(letter) + 1);
-      } else if (checkContainedLetter(letter)) {
+        letterUsage.update(letter);
+      } else if (letterUsage.checkLetter(letter, correctWord)) {
         wordGuesses.getGuess(wordIndex).setLetterState(i, 'contained');
-        letterUsage.set(letter, letterUsage.get(letter) + 1);
+        letterUsage.update(letter);
       } else {
         wordGuesses.getGuess(wordIndex).setLetterState(i, 'incorrect');
       }
