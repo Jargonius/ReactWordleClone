@@ -24,17 +24,21 @@ class Dictionary {
     this.wordLength = wordLength;
     this.obscurity = obscurity;
 
-    this.dictionaries.forEach((dict, index) => {
-      dict.forEach(elem => {
-        const key = `${index + 3}${elem.obscurity}`;
+    // this.dictionaries.forEach((dict, index) => {
+      this.dictionaries[wordLength-3].forEach(elem => {
+        const key = `${wordLength}${elem.obscurity}`;
         const entries: WordEntry[] = this.dictionary.get(key) || [];
-        const newEntry = new WordEntry(elem.word.toUpperCase(), elem.obscurity, 3);
+        const newEntry = new WordEntry(elem.word.toUpperCase(), elem.obscurity, wordLength);
         this.dictionary.set(key, [...entries, newEntry]);
       });
-    });
+    // });
   }
 
-  get length(): number { return this.dictionary.size; }
+  get key(): string { return `${this.wordLength}${this.obscurity}`; }
+
+  get length(): number { return (this.dictionary.get(this.key) || []).length; }
+
+  get entries(): WordEntry[] { return this.dictionary.get(this.key) || []; }
 
   getRandomWord() {
     const index = Math.round(Math.random() * this.length);
@@ -44,8 +48,7 @@ class Dictionary {
 
   lookup(word: string) {
     word = word.toUpperCase();
-    const entries = this.dictionary.get(`${this.wordLength}${this.obscurity}`);
-    return entries?.find(entry => entry.word === word)?.word == word;
+    return this.entries.filter(entry => entry.word === word)[0].word == word;
   }
 }
 

@@ -3,7 +3,7 @@ class LetterUsageTracker {
   private containedLetters: Map<string, number> = new Map();
 
   constructor() {
-    this.containedLetters = new Map('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((l) => [l, 0]));
+    this.containedLetters = new Map('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l => [l, 0]));
   }
 
   checkLetter(letter: string, correctWord: string): boolean {

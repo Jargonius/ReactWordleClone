@@ -10,8 +10,8 @@ import WordGuesses from './WordGuesses.class';
 
 function App() {
   // Setup state
-  const [guessNum, setGuessNum] = useState(4);
-  const [wordLength, setWordLength] = useState(3);
+  const [guessNum, setGuessNum] = useState(5);
+  const [wordLength, setWordLength] = useState(5);
   const [obscurity, setObscurity] = useState(Obscurity.Common);
   const [wordIndex, setWordIndex] = useState(0);
   const [dictionary, setDictionary] = useState(new Dictionary(wordLength, obscurity));
