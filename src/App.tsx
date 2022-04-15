@@ -15,27 +15,9 @@ function App() {
   const [obscurity, setObscurity] = useState(Obscurity.Common);
   const [wordIndex, setWordIndex] = useState(0);
   const [dictionary, setDictionary] = useState(new Dictionary(wordLength, obscurity));
-  const [wordGuesses, setWordGuesses] = useState(getInitialWords());
+  const [wordGuesses, setWordGuesses] = useState(new WordGuesses(guessNum, wordLength));
   const [correctWord, setCorrectWord] = useState(dictionary.getRandomWord());
   const [letterUsage, setLetterUsage] = useState(new LetterUsageTracker());
-
-  // function setupContainedLetters() {
-  //   return new Map('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((l) => [l, 0]));
-  // }
-
-  function getInitialWords(): WordGuesses {
-    return new WordGuesses(guessNum, wordLength);
-  }
-
-  function getCorrectWord() {
-    return 
-    // return 'APPLE';
-  }
-
-  // function checkContainedLetter(letter: string): boolean {
-  //   const letterCount = (correctWord.match(new RegExp(letter, 'gi')) || []).length;
-  //   return letterCount > 0 && letterUsage.get(letter) < letterCount;
-  // }
 
   function assessWord(word: string) {
     for (let i = 0; i < word.length; i++) {
