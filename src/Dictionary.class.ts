@@ -7,10 +7,15 @@ import dictionary8 from '../words/8-letter-words.json';
 import Obscurity from './Obscurity.enum';
 import WordEntry from './WordEntry.class';
 
+import Localbase from 'localbase'
+let db = new Localbase('db')
+
 class Dictionary {
   private dictionary: Map<string, WordEntry[]> = new Map<string, WordEntry[]>();
   private wordLength: number = 0;
   private obscurity: Obscurity = Obscurity.Common;
+  private _collectionName = '';
+  private _wordNum = 0;
   private dictionaries = [
     dictionary3,
     dictionary4,
@@ -40,15 +45,32 @@ class Dictionary {
   constructor(wordLength: number, obscurity: Obscurity) {
     this.wordLength = wordLength;
     this.obscurity = obscurity;
+    this.initializeDB(false, false);
+  }
 
-    // this.dictionaries.forEach((dict, index) => {
-      this.dictionaries[wordLength-3].forEach(elem => {
-        const key = `${wordLength}${elem.obscurity}`;
-        const entries: WordEntry[] = this.dictionary.get(key) || [];
-        const newEntry = new WordEntry(elem.word.toUpperCase(), elem.obscurity, wordLength);
-        this.dictionary.set(key, [...entries, newEntry]);
+  private initializeDB(showLogs: boolean, reInit: boolean) {
+    db.config.debug = showLogs;
+    if (reInit) {
+      db.delete();
+    }
+    this.dictionaries.forEach((dict, dictIndex) => {
+      const length = dictIndex + 3;
+      const collectionName = `${length}-letter-words`;
+      db.collection(collectionName).get().then((words: any[]) => {
+        // if (words.length == 0) {
+          dict.forEach((elem, wordIndex) => {
+            db.collection(collectionName).add(
+              // new WordEntry(elem.word, elem.obscurity, length), `${wordIndex}`
+              {
+              id: wordIndex,
+              word: elem.word,
+              obscurity: elem.obscurity
+            }
+            );
+          });
+        // }
       });
-    // });
+    });
   }
 
   /**
@@ -57,6 +79,8 @@ class Dictionary {
    * @returns The key property is being returned.
    */
   get key(): string { return `${this.wordLength}${this.obscurity}`; }
+
+  get collectionName(): string { return `${this.wordLength}-letter-words`; }
 
   /**
    * If the key exists in the dictionary, return the length of the array stored at that key, otherwise
@@ -77,9 +101,16 @@ class Dictionary {
  * @returns A random word from the dictionary.
  */
   getRandomWord() {
-    const index = Math.round(Math.random() * this.length);
-    const words = Array.from(this.dictionary.values()).flat().map(val => val.word);
-    return words[index].toUpperCase();
+    // const index = Math.round(Math.random() * this.length);
+    // const words = Array.from(this.dictionary.values()).flat().map(val => val.word);
+    // return words[index].toUpperCase();
+
+    db.collection(this.collectionName).get().then((words: any[]) => {
+      const index = Math.round(Math.random() * words.length);
+      const word = words[index].word;
+      return word.toUpperCase();
+    });
+    // return 'Apple'
   }
 
 /**
@@ -88,8 +119,11 @@ class Dictionary {
  * @returns The filter method returns an array of entries that match the word.
  */
   lookup(word: string) {
-    word = word.toUpperCase();
-    return this.entries.filter(entry => entry.word === word)[0].word == word;
+    // word = word.toUpperCase();
+    // return this.entries.filter(entry => entry.word === word)[0].word == word;
+    db.collection('users').doc({ word: word.toLowerCase() }).get().then((w: any) => {
+      console.log(w)
+    });
   }
 }
 
